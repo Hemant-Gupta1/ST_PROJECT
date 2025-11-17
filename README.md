@@ -1,8 +1,8 @@
 PROJECT: University Management System
 COURSE: CSE 731 - Software Testing (Term I 2025'26)
 TEAM MEMBERS: 
-1. [Your Name] - [Your Roll Number]
-2. [Partner Name] - [Partner Roll Number]
+1. [Hemant Gupta] - [IMT2022030]
+2. [Hemang Seth] - [Partner Roll Number]
 
 -----------------------------------------------------------------------
 PROJECT DESCRIPTION:
