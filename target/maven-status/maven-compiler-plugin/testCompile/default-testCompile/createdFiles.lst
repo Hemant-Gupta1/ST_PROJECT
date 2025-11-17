@@ -6,8 +6,10 @@ com/university/LibrarySystemTest.class
 com/university/ExceptionBoosterTest.class
 com/university/PersonTest.class
 com/university/DepartmentTest.class
+com/university/StateAccumulationTest.class
 com/university/FacultyTest.class
 com/university/MainTest.class
+com/university/SniperRound2Test.class
 com/university/ValidationUtilsTest.class
 com/university/CourseTest.class
 com/university/LibraryBookTest.class

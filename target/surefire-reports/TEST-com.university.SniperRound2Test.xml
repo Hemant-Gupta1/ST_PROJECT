@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.university.ValidationUtilsTest" time="0.013" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.university.SniperRound2Test" time="0.005" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -51,18 +51,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testValidEmail" classname="com.university.ValidationUtilsTest" time="0.002"/>
-  <testcase name="testValidAge" classname="com.university.ValidationUtilsTest" time="0.0"/>
-  <testcase name="testValidGpa" classname="com.university.ValidationUtilsTest" time="0.0"/>
-  <testcase name="testValidName" classname="com.university.ValidationUtilsTest" time="0.001"/>
-  <testcase name="testValidId" classname="com.university.ValidationUtilsTest" time="0.001"/>
-  <testcase name="testLogging" classname="com.university.ValidationUtilsTest" time="0.002">
-    <system-out><![CDATA[[INFO] Test: Info msg
-]]></system-out>
-    <system-err><![CDATA[[ERROR] Test: Error msg
-]]></system-err>
-  </testcase>
-  <testcase name="testNotNullOrEmpty" classname="com.university.ValidationUtilsTest" time="0.001"/>
-  <testcase name="testValidCredit" classname="com.university.ValidationUtilsTest" time="0.001"/>
-  <testcase name="testValidLength" classname="com.university.ValidationUtilsTest" time="0.0"/>
+  <testcase name="testEnrollmentCreditLimitExactBoundary" classname="com.university.SniperRound2Test" time="0.001"/>
+  <testcase name="testDepartmentDuplicateFaculty" classname="com.university.SniperRound2Test" time="0.0"/>
+  <testcase name="testDepartmentAddExistingCourse" classname="com.university.SniperRound2Test" time="0.0"/>
+  <testcase name="testFacultyRaiseMathStrict" classname="com.university.SniperRound2Test" time="0.0"/>
+  <testcase name="testCourseDuplicateEnrollment" classname="com.university.SniperRound2Test" time="0.0"/>
+  <testcase name="testPersonEmailStructure" classname="com.university.SniperRound2Test" time="0.0"/>
 </testsuite>
