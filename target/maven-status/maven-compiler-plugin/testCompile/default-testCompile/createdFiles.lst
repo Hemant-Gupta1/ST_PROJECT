@@ -11,5 +11,6 @@ com/university/FacultyTest.class
 com/university/MainTest.class
 com/university/SniperRound2Test.class
 com/university/ValidationUtilsTest.class
+com/university/OutputCaptureTest.class
 com/university/CourseTest.class
 com/university/LibraryBookTest.class
