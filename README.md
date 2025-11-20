@@ -30,6 +30,13 @@ The system is intentionally designed with complex boolean logic, mathematical ac
 > > Ran 584 tests (2.28 tests per mutation)
 
 ```
+## 📊 Final Mutation Test Results
+
+![Mutation Test Report](images/mutation_report.png)
+
+
+
+
 
 ---
 
@@ -169,10 +176,17 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 ### 6. View Mutation Report
 
-* Open: `target/pit-reports/<latest>/index.html`
+* Open: `target/pit-reports/index.html`
 * View full mutation matrix and killed/survived mutants.
 
 ---
+
+## 🛠️ Tools & Technologies
+* **Language:** Java (JDK 17)
+* **Build Tool:** Maven
+* **Test Framework:** JUnit 5
+* **Mutation Tool:** [PITest (PIT)](https://pitest.org/) (Version 1.15.0)
+* **IDE:** VS Code
 
 ## 🤖 AI Usage Declaration
 
