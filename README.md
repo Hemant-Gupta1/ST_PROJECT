@@ -32,7 +32,11 @@ The system is intentionally designed with complex boolean logic, mathematical ac
 ```
 ## 📊 Final Mutation Test Results
 
-![Mutation Test Report](images/mutation_report.png)
+<!-- ![Mutation Test Report](images/mutation_report.png) -->
+<p align="center">
+  <img src="images/mutation_report.png" width="750">
+</p>
+
 
 
 
