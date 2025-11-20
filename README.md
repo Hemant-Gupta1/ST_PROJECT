@@ -1,12 +1,12 @@
-# University Management System (Backend)
+# University Management System
 ### CSE 731: Software Testing | Term I 2025-26  
 **IIIT Bangalore**
 
 ---
 
 ## 👥 Team Members
-1. **[Your Name]** – [Your Roll Number]  
-2. **[Partner Name]** – [Partner Roll Number]
+1. [Hemant Gupta] – [IMT2022030]  
+2. [Hemang Seth] – [IMT2022098]
 
 ---
 
@@ -54,21 +54,21 @@ UniversityMutationProject/
 │   └── ValidationUtils.java   # Input validation utilities
 │
 └── test/java/com/university/
-├── StudentTest.java
-├── FacultyTest.java
-├── CourseTest.java
-├── DepartmentTest.java
-├── LibraryBookTest.java
-├── LibrarySystemTest.java
-├── EnrollmentServiceTest.java
-├── MainTest.java
-├── PersonTest.java
-├── ValidationUtilsTest.java
-├── ExceptionBoosterTest.java
-├── BoundarySniperTest.java
-├── SniperRound2Test.java
-├── StateAccumulationTest.java
-└── OutputCaptureTest.java
+    ├── StudentTest.java          # Student GPA, credits, probation tests
+    ├── FacultyTest.java          # Tenure, salary, service year tests
+    ├── CourseTest.java           # Capacity, enrollment, cancellation tests
+    ├── DepartmentTest.java       # Budget calculation, hiring logic tests
+    ├── LibraryBookTest.java      # Book state (damage, availability) tests
+    ├── LibrarySystemTest.java    # Overdue fine calculation tests
+    ├── EnrollmentServiceTest.java# Integration of Student–Course rules tests
+    ├── MainTest.java             # System entry point tests
+    ├── PersonTest.java           # Abstract base class tests
+    ├── ValidationUtilsTest.java  # Input validation utilities tests
+    ├── ExceptionBoosterTest.java # Exception handling tests
+    ├── BoundarySniperTest.java   # Conditionals boundary tests
+    ├── SniperRound2Test.java     # Math and boolean logic tests
+    ├── StateAccumulationTest.java# Accumulation of fine tests
+    └── OutputCaptureTest.java    # Exception handling tests
 
 ````
 
@@ -132,7 +132,6 @@ sudo apt-get install openjdk-17-jdk maven -y
 ### 2. Compile the Code
 
 ```bash
-cd UniversityMutationProject
 mvn clean compile
 ```
 
