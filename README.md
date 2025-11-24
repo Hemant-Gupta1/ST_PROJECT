@@ -8,6 +8,8 @@
 1. Hemant Gupta – IMT2022030
 2. Hemang Seth – IMT2022098
 
+Both did equal work on the project.
+
 ---
 
 ## 📝 Project Description
