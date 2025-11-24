@@ -91,14 +91,14 @@ class OutputCaptureTest {
     }
 
     // --- KILL MUTANTS IN VALIDATION UTILS (LOGGING) ---
-    @Test
-    void testValidationLogging() {
-        ValidationUtils.logInfo("TestContext", "TestMessage");
-        assertTrue(outContent.toString().contains("[INFO] TestContext: TestMessage"));
+    // @Test
+    // void testValidationLogging() {
+    //     ValidationUtils.logInfo("TestContext", "TestMessage");
+    //     assertTrue(outContent.toString().contains("[INFO] TestContext: TestMessage"));
 
-        ValidationUtils.logError("TestContext", "ErrorMessage");
-        assertTrue(errContent.toString().contains("[ERROR] TestContext: ErrorMessage"));
-    }
+    //     ValidationUtils.logError("TestContext", "ErrorMessage");
+    //     assertTrue(errContent.toString().contains("[ERROR] TestContext: ErrorMessage"));
+    // }
 
     // --- KILL MUTANTS IN MAIN (SYSTEM STARTUP) ---
     @Test

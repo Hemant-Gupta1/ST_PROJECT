@@ -51,13 +51,13 @@ class BoundarySniperTest {
     }
 
     // --- AGE BOUNDARY ---
-    @Test
-    void testAgeExactBoundaries() {
-        assertTrue(ValidationUtils.isValidAge(16), "16 should be valid");
-        assertFalse(ValidationUtils.isValidAge(15), "15 should be invalid");
-        assertTrue(ValidationUtils.isValidAge(100), "100 should be valid");
-        assertFalse(ValidationUtils.isValidAge(101), "101 should be invalid");
-    }
+    // @Test
+    // void testAgeExactBoundaries() {
+    //     assertTrue(ValidationUtils.isValidAge(16), "16 should be valid");
+    //     assertFalse(ValidationUtils.isValidAge(15), "15 should be invalid");
+    //     assertTrue(ValidationUtils.isValidAge(100), "100 should be valid");
+    //     assertFalse(ValidationUtils.isValidAge(101), "101 should be invalid");
+    // }
 
     // --- DEPARTMENT SALARY MATH ---
     @Test

@@ -1,7 +1,6 @@
 com/university/Course.class
 com/university/Faculty.class
 com/university/LibraryBook.class
-com/university/ValidationUtils.class
 com/university/Main.class
 com/university/EnrollmentService.class
 com/university/LibrarySystem.class

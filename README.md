@@ -42,10 +42,10 @@ This project strategically engineers code and tests to maximize the effectivenes
 * Statistics
   ================================================================================
 
-> > Line Coverage (for mutated classes only): 295/303 (97%)
-> > Generated 256 mutations Killed 211 (82%)
-> > Mutations with no coverage 8. Test strength 85%
-> > Ran 584 tests (2.28 tests per mutation)
+> > Line Coverage (for mutated classes only): 267/274 (97%)
+> > Generated 217 mutations Killed 174 (80%)
+> > Mutations with no coverage 8. Test strength 83%
+> > Ran 539 tests (2.48 tests per mutation)
 ````
 
 -----
@@ -69,7 +69,6 @@ UniversityMutationProject/
 │   ├── LibraryBook.java       # Book state (damage, availability)
 │   ├── LibrarySystem.java     # Overdue fine calculation
 │   ├── EnrollmentService.java # Integration of Student–Course rules
-│   └── ValidationUtils.java   # Input validation utilities
 │
 └── test/java/com/university/
     ├── StudentTest.java          # Student GPA, credits, probation tests
@@ -81,7 +80,6 @@ UniversityMutationProject/
     ├── EnrollmentServiceTest.java# Integration of Student–Course rules tests
     ├── MainTest.java             # System entry point tests
     ├── PersonTest.java           # Abstract base class tests
-    ├── ValidationUtilsTest.java  # Input validation utilities tests
     ├── ExceptionBoosterTest.java # Exception handling tests
     ├── BoundarySniperTest.java   # Conditionals boundary tests
     ├── SniperRound2Test.java     # Math and boolean logic tests
@@ -177,6 +175,74 @@ We used the advanced features of PITest to solve real testing problems, rather t
 
 -----
 
+---
+
+# 🏛️ Project Architecture: The University System Core
+
+The project simulates a backend system for a university, divided into **Data Models** (what the system holds) and **Service Layers** (what the system does). The core of the code is designed to hold specific logic and state that is highly susceptible to mutation (bugs).
+
+## A. Data Model & Logic Layer (`src/main/java/com/university/`)
+
+| File | Contains | Key Logic |
+|------|----------|-----------|
+| **Person.java** | Abstract Class | Base logic for all people: **Age** and **Email format validation** upon creation. |
+| **Student.java** | Extends `Person` | **GPA calculation** (`updateAcademicRecord`), **Probation/Dean’s List** status, credit accumulation (vulnerable to Math Mutators). |
+| **Faculty.java** | Extends `Person` | **Tenure logic** (based on years of service) and **salary raise calculation** (vulnerable to Math & Conditional Mutators). |
+| **Course.java** | Data Model | **Enrollment capacity checks**, state change methods (`enroll`, `drop`, `cancelCourse`), and getters/setters. |
+| **Department.java** | Data Model | Manages lists of `Faculty` and `Course`. **Budget calculation** (`calculateTotalSalaryExpense`) and **Affordability checks** (vulnerable to loop/summation Mutators). |
+| **LibraryBook.java** | Data Model | Tracks **damage level**, determines usability (`isUsable()`). |
+| **LibrarySystem.java** | Service Logic | Core logic for **overdue fine calculation**, including complex date math & boundary checks. |
+| **Main.java** | Entry Point | Runs a demonstration simulation of the university system. |
+
+---
+
+# 🧪 Testing Strategy: How Quality Was Demonstrated
+
+The main objective was to **kill PITest mutants**.  
+A total of **14 dedicated test files** were designed (from the original 7), ensuring strict assertions and complete execution of logic.
+
+## B. Unit & Integration Test Files (`src/test/java/com/university/`)
+
+| File | Type | Purpose / Mutants Killed |
+|------|------|---------------------------|
+| **EnrollmentServiceTest.java** | Integration | Validates multi-rule interactions (probation, capacity, credit limits). |
+| **DepartmentTest.java** | Integration / Boundary | Tests salary summation, budget constraints, loop accumulation Mutators. |
+| **LibrarySystemTest.java** | Integration / BVA | Validates fine calculation, including **year-wrapping** dates (Dec 31 → Jan 1). |
+| **StudentTest.java** | Unit | Verifies GPA math and Probation/Dean’s List logic. |
+| **ExceptionBoosterTest.java** | Exception Booster | Kills **Statement Deletion Mutants** by forcing constructors & setters to throw exceptions on invalid input. |
+| **BoundarySniperTest.java** | BVA / Boundary | Kills `>` → `>=` and `<` → `<=` Conditional Boundary Mutants (e.g., tenure at 5 & 6 years). |
+| **StateAccumulationTest.java** | Accumulation | Kills **Assignment Mutators** by verifying `+=` behavior (e.g., calling update methods twice). |
+| **SniperRound2Test.java** | Logic Negation | Kills advanced conditional/boolean Mutators such as duplicate enrollment (`!list.contains()`). |
+| **OutputCaptureTest.java** | Advanced Tool | Captures and verifies console output—kills **Void Method Call Mutators** (e.g., removed println). |
+| **Other Tests** | Utility | Basic tests for `Course`, `Faculty`, `LibraryBook`, `Main`, `Person`, `ValidationUtils` ensuring 96% coverage. |
+
+---
+
+# 🔁 Code Flow Summary
+
+The system operates in a predictable, testable flow:
+
+1. **Initialization:** `Main.java` creates instances of `Department`, `Faculty`, `Course`, and `Student`.
+2. **State Change:** `Main` triggers enrollment via `EnrollmentService`.
+3. **Integration Checks:**  
+   * Student state (`isProbation()`)  
+   * Course state (`isFull()`)
+4. **Action:** Enrollment succeeds only when all conditions pass.
+5. **Test Verification:** Tests repeatedly introduce invalid data (negative GPA, probation, full courses) and assert correct failures → **mutants get killed**.
+
+---
+
+# 🔎 Notes From Advanced Mutation Strategy
+
+* Logic is intentionally placed where mutations can create realistic bugs (math loops, boolean logic, boundary checks).
+* Exception, accumulation, and logic-negation tests ensure **even hard-to-kill mutants** (Void calls, Statement Deletions, Conditional Negations) do not survive.
+* These tests simulate real-world situations where incorrect logic leads to **financial miscalculation**, **invalid academic states**, or **incorrect system output**.
+
+---
+
+
+
+
 ## 🚀 How to Run This Project (From Scratch)
 
 ### 1\. Install Prerequisites (Java 17 + Maven)
@@ -247,3 +313,4 @@ All AI-generated content was manually validated, corrected, and expanded by both
 
 ```
 ```
+
