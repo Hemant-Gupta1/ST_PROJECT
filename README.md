@@ -52,7 +52,7 @@ This project strategically engineers code and tests to maximize the effectivenes
 
 -----
 
-## 📂 Folder Structure & File Descriptions (\>1000 lines of code)
+## 📂 Folder Structure & File Descriptions (1000 lines of code)
 
 ```text
 UniversityMutationProject/
