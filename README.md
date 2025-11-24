@@ -26,13 +26,13 @@ This project strategically engineers code and tests to maximize the effectivenes
 
 1.  **Advanced Applicability of Technique:**
     * **Proof of Test Quality:** While we achieved **97% Line Coverage**, we recognized that traditional coverage only proves a line was executed, not that the test made a valid assertion. Our **82% Mutation Coverage** proves the test suite is rigorous enough to detect even subtle logical errors.
-    * **Targeting Logic, Not Just Lines:** We utilized **Boundary Value Analysis** and **State Accumulation Testing** specifically to generate and kill complex mutants hiding in sensitive areas like Financial/Math logic (Department salary summation) and critical boolean checks.
 
 2.  **Clear Differentiation of Testing Levels:**
     * The project clearly applies mutation principles across both Unit and Integration levels, fulfilling a core requirement.
+    * **Separation of Concerns:** The creation of the EnrollmentService and CourseUtils classes ensures your project avoids "God Objects" (single classes that do everything). This architecture separates data (Student, Course) from business logic (EnrollmentService), making the code scalable and easier to test in isolation.
 
 3.  **Comprehensive Tool Demonstration:**
-    * We utilized advanced PITest features, such as output interception and specific Maven plugin configurations, to solve real-world testing problems.
+    * Killing Void Mutants: The OutputCaptureTest.java file is a key differentiator. It intercepts System.out and System.err to verify that code sections performing logging or printing (like in EnrollmentService and ValidationUtils) were not silently removed by the Void Method Call Mutator. This addresses a known weakness in standard coverage models.
 
 ---
 
