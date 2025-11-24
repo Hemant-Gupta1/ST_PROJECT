@@ -311,6 +311,3 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 All AI-generated content was manually validated, corrected, and expanded by both team members.
 
-```
-```
-
