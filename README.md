@@ -306,8 +306,9 @@ mvn org.pitest:pitest-maven:mutationCoverage
 ### **Contribution:**
 
 1.  Generated initial boilerplate structure for `com.university` classes.
-2.  Suggested creation of "Sniper" test classes like `BoundarySniperTest` and `OutputCaptureTest`.
+2.  Suggested creation of more test classes to cover edge cases and complex scenarios.
 3.  Provided PITest configuration snippet for `pom.xml`.
+4. Helped in writing comments.
 
 ### **Verification:**
 
