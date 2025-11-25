@@ -3,38 +3,42 @@ package com.university;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite designed to trigger exception paths across all classes.
+ * Ensures constructors and methods correctly enforce validation rules.
+ */
 class ExceptionBoosterTest {
 
     // --- STUDENT EXCEPTIONS ---
     @Test
     void testStudentInvalidInputs() {
-        // Test Null/Empty Name
-        assertThrows(IllegalArgumentException.class, () -> 
+        // Empty/invalid first name → should throw
+        assertThrows(IllegalArgumentException.class, () ->
             new Student("S1", "", "Last", "e@e.com", 20, "Major"));
-        
-        // Test Null Major
-        assertThrows(IllegalArgumentException.class, () -> 
+
+        // Empty major → invalid
+        assertThrows(IllegalArgumentException.class, () ->
             new Student("S1", "First", "Last", "e@e.com", 20, ""));
 
-        // Test Invalid Grade Input (Negative)
+        // Invalid grade: negative
         Student s = new Student("S1", "F", "L", "e@e.com", 20, "M");
         assertThrows(IllegalArgumentException.class, () -> s.updateAcademicRecord(-1.0, 3));
-        
-        // Test Invalid Grade Input (Too High)
+
+        // Invalid grade: above 4.0
         assertThrows(IllegalArgumentException.class, () -> s.updateAcademicRecord(5.0, 3));
-        
-        // Test Negative Credits
+
+        // Invalid credits: negative
         assertThrows(IllegalArgumentException.class, () -> s.updateAcademicRecord(4.0, -3));
     }
 
     // --- FACULTY EXCEPTIONS ---
     @Test
     void testFacultyInvalidInputs() {
-        // Test Negative Salary
-        assertThrows(IllegalArgumentException.class, () -> 
+        // Negative base salary → should fail
+        assertThrows(IllegalArgumentException.class, () ->
             new Faculty("F1", "F", "L", "e@e.com", 40, "Dept", -1000));
 
-        // Test Negative Raise
+        // Negative raise percentage → invalid
         Faculty f = new Faculty("F1", "F", "L", "e@e.com", 40, "Dept", 1000);
         assertThrows(IllegalArgumentException.class, () -> f.giveRaise(-10));
     }
@@ -42,18 +46,18 @@ class ExceptionBoosterTest {
     // --- COURSE EXCEPTIONS ---
     @Test
     void testCourseInvalidInputs() {
-        // Test Null ID
-        assertThrows(IllegalArgumentException.class, () -> 
+        // Null ID → invalid
+        assertThrows(IllegalArgumentException.class, () ->
             new Course(null, "Name", 3, 10));
-        
-        // Test Invalid Credits (0 or >6)
+
+        // Invalid credits: 0 or >6
         assertThrows(IllegalArgumentException.class, () -> new Course("C1", "N", 0, 10));
         assertThrows(IllegalArgumentException.class, () -> new Course("C1", "N", 7, 10));
-        
-        // Test Negative Capacity
+
+        // Negative capacity → invalid
         assertThrows(IllegalArgumentException.class, () -> new Course("C1", "N", 3, -5));
-        
-        // Test Null Instructor
+
+        // Setting instructor to null → invalid
         Course c = new Course("C1", "N", 3, 10);
         assertThrows(IllegalArgumentException.class, () -> c.setInstructor(null));
     }
@@ -61,13 +65,13 @@ class ExceptionBoosterTest {
     // --- DEPARTMENT EXCEPTIONS ---
     @Test
     void testDepartmentInvalidInputs() {
-        // Test Empty Name
+        // Empty department name → invalid
         assertThrows(IllegalArgumentException.class, () -> new Department("", "C", 100));
-        
-        // Test Negative Budget
+
+        // Negative budget → invalid
         assertThrows(IllegalArgumentException.class, () -> new Department("N", "C", -100));
-        
-        // Test Null Head
+
+        // Assigning null head → invalid
         Department d = new Department("N", "C", 100);
         assertThrows(IllegalArgumentException.class, () -> d.assignHead(null));
     }
@@ -76,28 +80,27 @@ class ExceptionBoosterTest {
     @Test
     void testLibraryInvalidInputs() {
         LibrarySystem lib = new LibrarySystem();
-        
-        // Return book that doesn't exist
+
+        // Returning a non-existent book → invalid
         assertThrows(IllegalArgumentException.class, () -> lib.returnBook("99999", 1));
-        
-        // Create book with nulls
+
+        // Null ISBN when creating a book → invalid
         assertThrows(IllegalArgumentException.class, () -> new LibraryBook(null, "T", "A"));
     }
-    
-    // --- PERSON (BASE) EXCEPTIONS ---
-    // This targets the specific validation in the abstract parent class
+
+    // --- PERSON (BASE CLASS) EXCEPTIONS ---
     @Test
     void testPersonBaseValidations() {
-        // Invalid ID (Null/Empty)
-        assertThrows(IllegalArgumentException.class, () -> 
+        // Invalid ID field → empty string
+        assertThrows(IllegalArgumentException.class, () ->
             new Student("", "F", "L", "e@e.com", 20, "M"));
-            
-        // Invalid Email format
-        assertThrows(IllegalArgumentException.class, () -> 
+
+        // Invalid email format → missing '@' or '.'
+        assertThrows(IllegalArgumentException.class, () ->
             new Student("S1", "F", "L", "bad-email", 20, "M"));
-            
-        // Invalid Age (<16)
-        assertThrows(IllegalArgumentException.class, () -> 
+
+        // Invalid age → less than required minimum (16)
+        assertThrows(IllegalArgumentException.class, () ->
             new Student("S1", "F", "L", "e@e.com", 12, "M"));
     }
 }

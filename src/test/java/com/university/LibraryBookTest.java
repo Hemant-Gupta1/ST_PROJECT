@@ -6,34 +6,45 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests LibraryBook behavior including:
+ * - Damage thresholds
+ * - Damage capping
+ * - Borrow/return logic
+ * - Constructor validation
+ */
 class LibraryBookTest {
 
     @Test
     void testDamageBoundaries() {
         LibraryBook b = new LibraryBook("1", "T", "A");
         
-        // Exact Boundary: 79 damage (Should be Usable)
+        // Damage = 79 → still usable (boundary condition)
         b.reportDamage(79);
         assertTrue(b.isUsable());
 
-        // Exact Boundary: 1 more damage -> 80 (Should be Unusable)
-        b.reportDamage(1); 
+        // Adding 1 more → 80 → no longer usable
+        b.reportDamage(1);
         assertEquals(80, b.getDamageLevel());
-        assertFalse(b.isUsable()); 
+        assertFalse(b.isUsable());
     }
 
     @Test
     void testDamageCapAt100() {
         LibraryBook b = new LibraryBook("1", "T", "A");
+
         b.reportDamage(50);
-        b.reportDamage(60); // Total 110
-        
-        // Logic caps it at 100
+        b.reportDamage(60); // Total would be 110 without capping
+
+        // Damage should cap at 100, not exceed it
         assertEquals(100, b.getDamageLevel());
     }
+
     @Test
     void testBookCreation() {
+        // Basic constructor behavior
         LibraryBook b = new LibraryBook("123", "Title", "Author");
+
         assertEquals("123", b.getIsbn());
         assertEquals("Title", b.getTitle());
         assertEquals("Author", b.getAuthor());
@@ -43,6 +54,7 @@ class LibraryBookTest {
 
     @Test
     void testInvalidBook() {
+        // Null ISBN or null Title should throw exception
         assertThrows(IllegalArgumentException.class, () -> new LibraryBook(null, "T", "A"));
         assertThrows(IllegalArgumentException.class, () -> new LibraryBook("1", null, "A"));
     }
@@ -50,13 +62,15 @@ class LibraryBookTest {
     @Test
     void testBorrowReturnFlow() {
         LibraryBook b = new LibraryBook("1", "T", "A");
-        
+
+        // Borrowing a book marks it as borrowed
         b.borrow();
         assertTrue(b.isBorrowed());
-        
-        // Try borrowing again
+
+        // Borrowing again should cause an exception
         assertThrows(IllegalStateException.class, b::borrow);
-        
+
+        // Returning resets borrow state
         b.returnBook();
         assertFalse(b.isBorrowed());
     }
@@ -64,19 +78,22 @@ class LibraryBookTest {
     @Test
     void testDamageLogic() {
         LibraryBook b = new LibraryBook("1", "T", "A");
-        assertTrue(b.isUsable()); // 0 damage
 
+        // Fresh book should be usable
+        assertTrue(b.isUsable());
+
+        // After 50 damage → still usable (<80)
         b.reportDamage(50);
-        assertTrue(b.isUsable()); // 50 damage (Limit is 80)
+        assertTrue(b.isUsable());
         assertEquals(50, b.getDamageLevel());
 
-        b.reportDamage(40); 
-        // 50 + 40 = 90. Should be capped at 100 if logic exists, or just > 80
+        // Add 40 → 90 (or capped at 100)
+        b.reportDamage(40);
         assertTrue(b.getDamageLevel() >= 90);
-        assertFalse(b.isUsable()); // > 80 damage implies not usable
+        assertFalse(b.isUsable()); // Damage exceeds 80 → not usable
 
-        // Test negative damage input
+        // Negative damage input should not reduce total damage
         b.reportDamage(-10);
-        assertTrue(b.getDamageLevel() >= 90); // Should not decrease
+        assertTrue(b.getDamageLevel() >= 90);
     }
 }

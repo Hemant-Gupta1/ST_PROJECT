@@ -2,8 +2,8 @@ com/university/Course.class
 com/university/Faculty.class
 com/university/LibraryBook.class
 com/university/Main.class
-com/university/EnrollmentService.class
-com/university/LibrarySystem.class
 com/university/Person.class
+com/university/LibrarySystem.class
+com/university/EnrollmentService.class
 com/university/Department.class
 com/university/Student.class

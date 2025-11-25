@@ -7,38 +7,49 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests that print statements inside EnrollmentService, Main, and other components
+ * are executed correctly by capturing console output.
+ * This ensures mutation testing kills mutants that remove, alter, or bypass println calls.
+ */
 class OutputCaptureTest {
 
+    // Buffers to capture stdout and stderr
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+
+    // Store original streams to restore after each test
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
 
     @BeforeEach
     public void setUpStreams() {
-        // Redirect console output to our variable
+        // Redirect System.out and System.err so tests can inspect console output
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
 
     @AfterEach
     public void restoreStreams() {
-        // Restore console back to normal
+        // Restore actual console output for normal behavior
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
 
-    // --- KILL MUTANTS IN ENROLLMENT SERVICE (PRINT STATEMENTS) ---
+    // --- ENSURE PRINT MESSAGES IN ENROLLMENT SERVICE EXECUTE ---
+
     @Test
     void testEnrollmentProbationPrint() {
+        // Setup: student is placed on probation
         EnrollmentService service = new EnrollmentService();
         Student s = new Student("S1", "A", "B", "e@e.com", 20, "M");
-        s.updateAcademicRecord(1.0, 10); // Force Probation
+        s.updateAcademicRecord(1.0, 10); // Forces probation
         Course c = new Course("C1", "N", 3, 10);
 
+        // Attempt enrollment triggers print
         service.enroll(s, c);
-        
-        // If the tool deletes the println, this assertion will fail
+
+        // Mutation protection: verify probation error message appears
         assertTrue(outContent.toString().contains("Enrollment failed: Student is on probation."));
     }
 
@@ -47,23 +58,32 @@ class OutputCaptureTest {
         EnrollmentService service = new EnrollmentService();
         Student s1 = new Student("S1", "A", "B", "e@e.com", 20, "M");
         Student s2 = new Student("S2", "C", "D", "e@e.com", 20, "M");
-        Course c = new Course("C1", "N", 3, 1); // Capacity 1
+        Course c = new Course("C1", "N", 3, 1); // Only 1 seat
 
+        // First student fills capacity
         service.enroll(s1, c);
-        outContent.reset(); // Clear previous output
-        
-        service.enroll(s2, c); // Should fail
+
+        // Prepare fresh output buffer
+        outContent.reset();
+
+        // Second student attempts to enroll → should print "Course is full"
+        service.enroll(s2, c);
         assertTrue(outContent.toString().contains("Enrollment failed: Course is full."));
     }
-    
+
     @Test
     void testEnrollmentCreditLimitPrint() {
         EnrollmentService service = new EnrollmentService();
         Student s = new Student("S1", "A", "B", "e@e.com", 20, "M");
-        s.updateAcademicRecord(4.0, 18); // 18 credits
-        Course c = new Course("C1", "N", 3, 10); // +3 = 21 > 20
-        
+
+        // Student already has 18 credits
+        s.updateAcademicRecord(4.0, 18);
+
+        Course c = new Course("C1", "N", 3, 10);
+
+        // Attempting to exceed the 20-credit limit triggers message
         service.enroll(s, c);
+
         assertTrue(outContent.toString().contains("Enrollment failed: Credit limit exceeded."));
     }
 
@@ -73,40 +93,37 @@ class OutputCaptureTest {
         Student s = new Student("S1", "A", "B", "e@e.com", 20, "M");
         Course c = new Course("C1", "N", 3, 10);
 
+        // Auditing a course always prints confirmation
         service.auditCourse(s, c);
+
         assertTrue(outContent.toString().contains("is auditing"));
     }
-    
+
     @Test
     void testWithdrawPenaltyPrint() {
         EnrollmentService service = new EnrollmentService();
         Student s = new Student("S1", "A", "B", "e@e.com", 20, "M");
         Course c = new Course("C1", "N", 3, 10);
-        
+
         service.enroll(s, c);
-        outContent.reset();
-        
-        service.withdraw(s, c, true); // Late withdraw
+        outContent.reset(); // Reset output before testing penalty message
+
+        // Withdrawal beyond deadline prints penalty message
+        service.withdraw(s, c, true);
+
         assertTrue(outContent.toString().contains("Student withdrew with penalty."));
     }
 
-    // --- KILL MUTANTS IN VALIDATION UTILS (LOGGING) ---
-    // @Test
-    // void testValidationLogging() {
-    //     ValidationUtils.logInfo("TestContext", "TestMessage");
-    //     assertTrue(outContent.toString().contains("[INFO] TestContext: TestMessage"));
+    // --- PRINT TESTING FOR MAIN EXECUTION ---
 
-    //     ValidationUtils.logError("TestContext", "ErrorMessage");
-    //     assertTrue(errContent.toString().contains("[ERROR] TestContext: ErrorMessage"));
-    // }
-
-    // --- KILL MUTANTS IN MAIN (SYSTEM STARTUP) ---
     @Test
     void testMainOutput() {
+        // Execute full Main class for coverage and printed output verification
         Main.main(new String[]{});
+
         String output = outContent.toString();
-        
-        // Verify Main is actually doing its job
+
+        // Ensure core startup & summary prints are present
         assertTrue(output.contains("=== University System Starting ==="));
         assertTrue(output.contains("Enrolling Alice: SUCCESS"));
         assertTrue(output.contains("=== System Finished ==="));
