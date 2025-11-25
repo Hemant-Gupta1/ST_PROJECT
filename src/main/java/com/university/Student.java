@@ -58,10 +58,13 @@ public class Student extends Person {
         this.gpa = (currentPoints + newPoints) / this.totalCredits;
     }
 
+
+
     /**
      * Checks if the student qualifies for the Dean’s List.
      * Mutation Target: GPA threshold (3.5) and credit threshold (12).
      */
+    
     public boolean isDeansList() {
         return this.gpa >= 3.5 && this.totalCredits >= 12;
     }

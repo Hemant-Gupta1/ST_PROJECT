@@ -66,6 +66,9 @@ public class LibraryBook {
      * Reports damage to the book.
      * Damage accumulates and is capped at 100.
      */
+
+
+
     public void reportDamage(int damage) {
         if (damage < 0) {
             damage = 0; // Prevent negative damage
@@ -76,6 +79,8 @@ public class LibraryBook {
             this.damageLevel = 100; // Cap damage level
         }
     }
+
+    
 
     /**
      * Determines whether the book is still usable.

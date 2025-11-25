@@ -3,10 +3,14 @@ package com.university;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * Represents a University Course with details like ID, name, credits,
  * capacity, instructor, and enrolled students.
  */
+
+
 public class Course {
 
     // Unique course identifier (e.g., CS101)

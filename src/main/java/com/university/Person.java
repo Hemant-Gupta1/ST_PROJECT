@@ -57,16 +57,20 @@ public abstract class Person {
         }
     }
 
+
+
     /**
      * Ensures the age meets the minimum requirement.
      * Mutation target: threshold 16 → 15 or 17.
      */
+
     private void validateAge(int age) {
         if (age < 16) {
             throw new IllegalArgumentException("Person must be at least 16 years old.");
         }
     }
 
+    
     /**
      * Updates address if valid.
      */

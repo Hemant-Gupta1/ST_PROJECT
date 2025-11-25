@@ -72,6 +72,8 @@ public class Faculty extends Person {
         }
     }
 
+
+    
     /**
      * Gives a raise based on percentage increase.
      * Mutation Target: raise calculation logic.
@@ -85,6 +87,7 @@ public class Faculty extends Person {
     }
 
     // ----- Getters -----
+
 
     public String getDepartment() {
         return department;

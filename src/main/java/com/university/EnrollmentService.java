@@ -67,10 +67,14 @@ public class EnrollmentService {
         return removed;
     }
 
+
+
     /**
      * Allows a student to audit a course.
      * Auditing does not require credit checks but still needs available seats.
      */
+
+    
     public void auditCourse(Student student, Course course) {
         if (course.getAvailableSeats() > 0) {
             System.out.println(

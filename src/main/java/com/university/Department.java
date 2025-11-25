@@ -118,6 +118,7 @@ public class Department {
 
     // ----- Getters -----
 
+    
     public String getDeptName() {
         return deptName;
     }
@@ -125,6 +126,7 @@ public class Department {
     public String getDeptCode() {
         return deptCode;
     }
+
 
     public Faculty getHeadOfDept() {
         return headOfDept;
@@ -134,9 +136,11 @@ public class Department {
         return facultyList;
     }
 
+
     public List<Course> getCourseList() {
         return courseList;
     }
+
 
     public double getBudget() {
         return budget;
