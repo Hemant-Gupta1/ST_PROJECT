@@ -123,9 +123,14 @@ class OutputCaptureTest {
 
         String output = outContent.toString();
 
-        // Ensure core startup & summary prints are present
-        assertTrue(output.contains("=== University System Starting ==="));
-        assertTrue(output.contains("Enrolling Alice: SUCCESS"));
-        assertTrue(output.contains("=== System Finished ==="));
+        // 1. Check system start/end
+        assertTrue(output.contains("=== University System Starting ==="), "Failed to find 'Starting' banner.");
+        assertTrue(output.contains("=== System Finished ==="), "Failed to find 'Finished' banner.");
+        
+        // 2. Check the enrollment status - NOW CORRECTLY ASSERTING THE ADDED PRINT LINE
+        assertTrue(output.contains("Enrolling Alice: SUCCESS"), "Failed to find SUCCESS enrollment."); 
+        
+        // 3. Check the final GPA calculation
+        assertTrue(output.contains("Alice Wonder | GPA: 4.0"), "Failed to find Alice's final GPA.");
     }
 }
