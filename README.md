@@ -25,14 +25,14 @@ The system is intentionally designed with complex boolean logic, mathematical ac
 This project strategically engineers code and tests to maximize the effectiveness of mutation testing:
 
 1.  **Advanced Applicability of Technique:**
-    * **Proof of Test Quality:** While we achieved **97% Line Coverage**, we recognized that traditional coverage only proves a line was executed, not that the test made a valid assertion. Our **82% Mutation Coverage** proves the test suite is rigorous enough to detect even subtle logical errors.
+    * **Proof of Test Quality:** While we achieved **98% Line Coverage**, we recognized that traditional coverage only proves a line was executed, not that the test made a valid assertion. Our **80% Mutation Coverage** proves the test suite is rigorous enough to detect even subtle logical errors.
 
 2.  **Clear Differentiation of Testing Levels:**
     * The project clearly applies mutation principles across both Unit and Integration levels, fulfilling a core requirement.
     * **Separation of Concerns:** The creation of the EnrollmentService and CourseUtils classes ensures your project avoids "God Objects" (single classes that do everything). This architecture separates data (Student, Course) from business logic (EnrollmentService), making the code scalable and easier to test in isolation.
 
 3.  **Comprehensive Tool Demonstration:**
-    * Killing Void Mutants: The OutputCaptureTest.java file is a key differentiator. It intercepts System.out and System.err to verify that code sections performing logging or printing (like in EnrollmentService and ValidationUtils) were not silently removed by the Void Method Call Mutator. This addresses a known weakness in standard coverage models.
+    * Killing Void Mutants: The OutputCaptureTest.java file is a key differentiator. It intercepts System.out and System.err to verify that code sections performing logging or printing were not silently removed by the Void Method Call Mutator. This addresses a known weakness in standard coverage models.
 
 ---
 
@@ -44,10 +44,10 @@ This project strategically engineers code and tests to maximize the effectivenes
 * Statistics
   ================================================================================
 
-> > Line Coverage (for mutated classes only): 267/274 (97%)
-> > Generated 217 mutations Killed 174 (80%)
-> > Mutations with no coverage 8. Test strength 83%
-> > Ran 539 tests (2.48 tests per mutation)
+> > Line Coverage (for mutated classes only): 281/287 (98%)
+> > Generated 222 mutations Killed 178 (80%)
+> > Mutations with no coverage 7. Test strength 83%
+> > Ran 577 tests (2.6 tests per mutation)
 ````
 
 -----
@@ -86,7 +86,7 @@ UniversityMutationProject/
     ├── BoundarySniperTest.java   # Conditionals boundary tests
     ├── SniperRound2Test.java     # Math and boolean logic tests
     ├── StateAccumulationTest.java# Accumulation of fine tests
-    └── OutputCaptureTest.java    # Exception handling tests
+    └── OutputCaptureTest.java    # System.out and System.err interception tests
 ```
 
 -----
@@ -104,7 +104,6 @@ This level involves testing individual methods, functions, and classes in isolat
 | `StudentTest.java` | `Student` & `Person` logic | Ensure individual components are bug-free. Verifies correct GPA calculation, credit accumulation, and probation/honor status logic. |
 | `FacultyTest.java` | `Faculty` logic | Verify accurate salary raises and the complex boundary condition for tenure eligibility (`> 5` years). |
 | `LibraryBookTest.java` | `LibraryBook` state | Ensure individual components are bug-free. Verifies damage accumulation and the **usability boundary** (`< 80` damage). |
-| `ValidationUtilsTest.java` | `ValidationUtils` static methods | Ensure helper functions (e.g., `isValidEmail`, `isValidAge`) correctly identify invalid input formats and boundaries. |
 
 ### 2\. Integration Testing
 
@@ -195,6 +194,7 @@ The project simulates a backend system for a university, divided into **Data Mod
 | **LibraryBook.java** | Data Model | Tracks **damage level**, determines usability (`isUsable()`). |
 | **LibrarySystem.java** | Service Logic | Core logic for **overdue fine calculation**, including complex date math & boundary checks. |
 | **Main.java** | Entry Point | Runs a demonstration simulation of the university system. |
+| **EnrollmentService.java** | Service Logic | Core logic for **enrollment**, **withdrawal**, **auditing**, and **fine calculation**. |
 
 ---
 
@@ -216,21 +216,113 @@ A total of **14 dedicated test files** were designed (from the original 7), ensu
 | **StateAccumulationTest.java** | Accumulation | Kills **Assignment Mutators** by verifying `+=` behavior (e.g., calling update methods twice). |
 | **SniperRound2Test.java** | Logic Negation | Kills advanced conditional/boolean Mutators such as duplicate enrollment (`!list.contains()`). |
 | **OutputCaptureTest.java** | Advanced Tool | Captures and verifies console output—kills **Void Method Call Mutators** (e.g., removed println). |
-| **Other Tests** | Utility | Basic tests for `Course`, `Faculty`, `LibraryBook`, `Main`, `Person`, `ValidationUtils` ensuring 96% coverage. |
+| **Other Tests** | Utility | Basic tests for `Course`, `Faculty`, `LibraryBook`, `Main`, `Person`, `ValidationUtils` ensuring 98% coverage. |
 
 ---
 
-# 🔁 Code Flow Summary
 
-The system operates in a predictable, testable flow:
+## 🔄 Code Flow Summary
 
-1. **Initialization:** `Main.java` creates instances of `Department`, `Faculty`, `Course`, and `Student`.
-2. **State Change:** `Main` triggers enrollment via `EnrollmentService`.
-3. **Integration Checks:**  
-   * Student state (`isProbation()`)  
-   * Course state (`isFull()`)
-4. **Action:** Enrollment succeeds only when all conditions pass.
-5. **Test Verification:** Tests repeatedly introduce invalid data (negative GPA, probation, full courses) and assert correct failures → **mutants get killed**.
+This project simulates core university operations by establishing clear dependencies and data flow across the **eight main classes** in the `src/main/java` directory.
+
+---
+
+### 1. **Setup and Initialization**
+The execution begins in **`Main.java`**, where the following objects are created:
+
+- A **`Department`** → manages budget.
+- **`Faculty`** → assigned to courses.
+- **`Course`** → initialized with capacity and faculty.
+- **`Student`** → the primary actor of the system.
+- **`EnrollmentService`** → orchestrates enrollment logic.
+
+These objects form the backbone of all subsequent interactions.
+
+---
+
+### 2. **Enrollment and Integration Logic**
+`Main` triggers the enrollment flow by calling:
+
+```
+
+EnrollmentService.enroll(Student, Course)
+
+```
+
+Inside **`EnrollmentService`**, the system:
+
+- Checks if the **`Student`** is on probation (`isProbation()`).
+- Verifies if the **`Course`** has available seats.
+- Prints meaningful status messages (validated later via testing).
+- If successful, instructs the **`Course`** to update its internal list of enrolled students.
+
+---
+
+### 3. **Academic State Update**
+After enrollment, `Main` invokes:
+
+```
+
+Student.updateAcademicRecord()
+
+```
+
+Here, the **`Student`** performs:
+
+- GPA computation using weighted grade + credit arithmetic.
+- Accumulation of `totalCredits`.
+- Mutation-sensitive math operations that reflect the student's academic progress.
+
+This step updates the student’s internal academic state.
+
+---
+
+### 4. **Utility Operations & Library Workflow**
+`Main` then initializes:
+
+- A **`LibraryBook`**
+- A **`LibrarySystem`**
+
+Calling:
+
+```
+
+LibrarySystem.returnBook()
+
+```
+
+This triggers:
+
+- **Fine calculation logic**
+- State update of the **`LibraryBook`** (returned → available)
+- Validation of library workflow operations
+
+---
+
+### 5. **Test Verification Flow (PITest Mutation Testing Cycle)**
+
+The testing suite ensures all logic is mutation-resistant:
+
+- **`OutputCaptureTest`**  
+  Captures console prints from `Main.java` (e.g., `"Enrolling Alice: SUCCESS"`) and verifies correctness.  
+  → Ensures *Void Method Call Mutants* are killed.
+
+- **`ExceptionBoosterTest`** & **`BoundarySniperTest`**  
+  Directly test constructors and methods of `Person`, `Student`, `Faculty`.  
+  → Validate input constraints, edge cases, and mathematical accuracy.
+
+Together, they confirm correctness of:
+- Enrollment logic  
+- GPA computation  
+- Fine calculation  
+- Constructor validation  
+- Console output behavior  
+
+---
+
+This flow ensures the entire system works cohesively—from initialization to state updates—while being fully validated through mutation-based testing.
+
+
 
 ---
 
